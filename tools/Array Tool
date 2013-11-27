@@ -1,0 +1,23 @@
+//1. Pass each element of the array a to the specified predicate function.
+//   Return an array that holds the elements for which the predicate 
+//   returned true
+function filterArray(/*array*/a, /*boolean function*/ func){
+  var r = [], len = a.length;
+  for(var i = 0 ; i < len ; i++){
+    var e = a[i];
+    if(func(e)){
+      r.push(e);
+    }
+  }
+  return r;
+}
+
+//2. Return the array if values that result when each of the elements
+//   of the array a are passed to the function func.
+function mapArray(/*array*/ a, /*function*/ func){
+  var r = [], len = a.length;
+  for(var i = 0 ; i < len ; i++){
+    r[i] = func(a[i]);
+  }
+  return r;
+}
