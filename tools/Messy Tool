@@ -1,0 +1,9 @@
+// this is a example about how to make the name of a function to be a paramter.
+
+function funA(a, b){
+  return a+b;
+}
+function funB(func, a, b){
+  return func(a, b);
+}
+document.write(funB(funA, 3, 4));  // >7
