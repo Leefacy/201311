@@ -1,2 +1,33 @@
 201311
 ======
+
+//1. Return an array that holds the names of the enumerable properties of Object o.
+function getPropertyNames(/*Object*/ o){
+  var r = [];
+  for(name in o){
+    r.push(name);
+  }
+  return r;
+}
+//2. Copy the enumerable properties of the object fObj th the object tObj.
+//If tObj is null, a new object is created. 
+//The function returns tObj or the newly created object.
+function copyProperties(/*object*/fObj,/*object*/tObj){
+  if(!tObj) tObj = {};
+  for(p in fObj){
+    tObj[p] = fObj[p];
+  }
+  return tObj;
+}
+
+//3. Copy the enumerable properties of the object fObj to the object tObj,
+// but only the ones that are not already defined by tObj.
+// This is userful, for example, when fObj contains default values that
+// we want to use if they are not already defined in tObj.
+function copyUndefinedProperties(/*object*/fObj, /*object*/tObj){
+  for(p in fObj){
+    if(!p in tObj){
+      tObj[p] = fObj[p];
+    }
+  }
+}
