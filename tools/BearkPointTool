@@ -1,0 +1,46 @@
+//This function implements a breakpoint. It repeatedly prompts the user
+//for an expression, evaluates it with the supplied self-inspecting closure.
+//and displays the result. so each function must supply its own closure.
+
+//Inspired by Steve Yan's breakpioint()function at http://trimpath.com/preoject/wiki/TrimBreakPoint
+//
+function inspect(/*function*/inspector, title){
+
+  var expression, result;
+  // You can use a breakpoint to turn off subsequent breakpoints by creating a property named 'ignore'
+  // on this function.
+  if('ignore' in arguments.callee){
+    return;
+  }
+  while(true){
+    
+    //Figure out how to prompt the user
+	  var message = '';
+	  
+		if(title){
+			message = title +'\n';
+		}
+		
+		// If we hava already evaluated an expression, display it and its value.
+		if(expression){
+			message += '\n' + expression + '====>' +result +'\n;'
+		}else{
+			expressioin = '';
+		}
+		
+		// We always display at least a basic prompt			
+		message += 'Enter an expression to evaluate:';
+		
+		//Get the user's input, displaying our prompt and using the last expression 
+		//as the default value this time.
+		expression = prompt(message, expression);
+		
+		if(!expression) return;
+		
+		//Otherwise, use the supplied closure to evaluate the expression
+		//in the scope that is being inspected.
+		//The result will be displayed on the next iteration.
+		result = inspector(expression);
+	}
+}
+			
