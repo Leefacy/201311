@@ -1,0 +1,102 @@
+1.//this is the constructor.
+function Circle(radius){
+  //instance property.
+  this.r = radius;
+}
+// class property.
+Circle.PI = 3.1415926;
+
+//instance method.
+Circle.prototype.area = function(){
+  return Circle.PI*this.r*this.r;
+}
+
+// class method.
+Circle.max = function(a, b){
+  if(a.r >b.r){
+    return a;
+  }else{
+    return b;
+  }
+}
+
+
+2.Complex.js
+/*This file defines a Complex class to represent complex numbers.
+ *Recall that a complex number is the sum of a real number and an 
+ *imaginary number and that the imaginary number I is the square 
+ *root of -1.
+ */
+ 
+ /*
+  *The first step in defining a class is defining the constructor
+  *functiono of the class. This constructor should initialize any
+  *instance properties of the object. These are the essential 
+  *"state variables" that make each instance of the class different.
+  */
+  
+  function Complex(r, i){
+    this.x = r;            //The real part of the number.
+    this.y = i;            //The imaginary part of the number.
+  }
+  
+  /*
+   *The second steo in defining a class is defining its instance 
+   *methods(and possibly other properties) in the prototype object
+   *of the constructor. Any properties defined in this object will
+   *be inherited by all instances of the class. Note that instance
+   *methods operate on the this keyword.For many methods no other 
+   *arguments are needed.
+   */
+   
+   //Return the magnitude of a complex number. This is defined as its distance
+   //from the origin(0,0) of the complex plane.
+   Complex.prototype.magnitude = function(){
+      return Math.sqrt(this.x*this.x + this.y*this.y);
+   }
+   
+   //Add a complex number to this one and return the sum in a new object.
+   Complex .prototype.add = function(t){
+      return new Complex(this.x + t.x; this.y + t.y);
+   }
+   
+   //Multiply this complex number by another and return the product as a
+   //new Complex object.
+   Complex.prototype.multiply = function(t){
+      return new Complex(this.x*t.x - this.y*t.y, this.x*t.y + this.y*t.x);
+   }
+   
+   //Convert a Complex object to a string in a userful way.
+   //This is invoked when a Complex object is useed as a string.
+   Complex.prototype.toString = function(){
+      return '{' + this.x +',' + this.y + '}';
+   }
+   
+   //Test whether this Complex object has the same value as another.
+   Complex.prototype.equals = function(t){
+      return this.x == t.x && this.y == t.y;
+   }
+   
+   //Return the real portion of a coomplex number. This function is 
+   //invoked when a Complex object is treated as a primitive value.
+   Complex.prototype.valueOf = function(){
+      return this.x;
+   }
+   
+   /*
+    *The third step in defining a class is to define class methods.
+    *constants, and any needed class properties as properties of the
+    *constructor function itself(instead of as properties of the prototype
+    *object of the constructor). Note that class methods do not use the 
+    *'this' keyword:they operate only on their arguments...
+    */
+   Complex.sum = function(a, b){
+      return new Complex(a.x + b.x, a.y + b.y);
+   }
+   
+   /*
+    *Multiply two coomplex numbers and return the product.
+    *Constrast with the instance method multiply()
+    */
+    
+    
