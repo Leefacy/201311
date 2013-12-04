@@ -98,5 +98,32 @@ Circle.max = function(a, b){
     *Multiply two coomplex numbers and return the product.
     *Constrast with the instance method multiply()
     */
+    Complex.product = function(a, b){
+        return new Complex(a.x * b.x - a.y * b.y, a.x * b.y + a.y *b.x);
+    }
     
+    /*
+     *Here are some useful predefined complex numbers. They are defined as class properties.
+     *and their names are in uppercase to indecate that they are intended to be constants
+     *(although it is not possible to make JavaScript properties read-only).
+     */
+    Complex.ZERO = new Complex(0,0);
+    Complex.ONE = new Complex(1,0);
+    Complex.I = new Complex(0,1);
     
+    3. private properties.
+    function ImmutableRectangle(w, h){
+      /*
+       *This constructor does not store the width and height properties in the object 
+       *it initializes. Instead, it simply defines accessor methods in the object.
+       *These methods are closures and the width and height values are captured in
+       *their scope chains.
+       */
+      this.getWidth = function(){return w;}
+      this.getHeight = function(){return h;}
+    }
+    
+    //Note that the class can hava regular methods in the prototype object.
+    ImmutableRectangle.prototype.area = function(){
+      return this.getWidth() * this.getHeight(); 
+    }
