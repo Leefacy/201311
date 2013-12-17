@@ -1,0 +1,141 @@
+1. // is like array or not.
+function isArrayLike(x){
+ if(x instanceof Array){ 
+  return true;               // Real arrays are array-like
+ }
+ if(!('length' in x)){
+  return false;              // Arrays must have a length property
+ }
+ if(typeof x.length != 'number'){
+  return false;              // Length must be a number
+ }
+ if(x.length <0){
+  return false;             // Length must be nonnegative
+ }
+ if(x.length > 0){
+  // If the array is nonempty, it must at a minimum have a property defined
+  // whose name is the number length-1
+  if(!((x.length - 1) in x)){
+   return false;
+  }
+ }
+ return true;
+}
+
+2. // Return true if o has methods with the same name and arity as all
+   // methods in c.prototype. Otherwise, return false. Throws an exception
+   // if c is a built-in type with nonenumerable methods.
+function isProvides(o, c){
+ //If o actually is an instance of c, it obviously looks like c.
+ if(o instanceof c){
+  return true;
+ }
+ //If a constructor was passed instead of an object, use its prototype.
+ if(typeof o == 'function'){
+  o = o.prototype;
+ }
+ 
+ //The methods of built-in types are not enumberale, and we return 
+ //undefined. Otherwise, any object would appear to provide and of
+ //the built-in types.
+ if(c == Array || c == Number || c == Date || c = Error || c == Function || c ==Boolean || c == RegExp || c == String){
+  return undefined;
+ }
+ 
+ var proto = c.prototype;
+ for(var p in proto){  // Loop through all properties in c.prototype
+  // Ignore properties that are not functions
+  if(typeof proto[p] != 'function'){
+   continue;
+  }
+  // If o does not have a property by the same name, return false.
+  if(!(p in o)){
+   return false;
+  }
+  // If that property is not a function, return false.
+  if(typeof o[p] != 'function'){
+   return false;
+  }
+  // If the two functions are not declared with the same number of arguments, return false
+  if(o[p].length != proto[p].length){
+   return false;
+  }
+ }
+  // If all the methods check out, we can finally return true.
+  return true;
+}
+
+3. //Return true if each of the method properties in c.prototype have been 
+   //borrowed bt o. if o is a function rather than an object, we test the
+   //prototype of o rather than o itself.
+   //Note that this function requires methods to be copied, not reimplemented. 
+   //If a class borrows a method and the overrides it, this method will return false.
+function borrows(o, c){
+ // If we are an instance of something, then of course we have its methods
+ if(o instanceof c){
+  return true;
+ }
+ // It is impossible to test whether the methods of a built-in type have
+ // been borrowed, since the methods of built-in types are not enumerable.
+ // We return undefined in this case as a kind of 'I do not know' answer
+ // instead of throwing an exception. Undefined behaves much like false, 
+ // but can be distinguished from false if the caller needs to.
+ if(c == Array || c == Boolean || c == Date || c == Error || c == Function || c == Number || c == RegExp || c == String){
+  return undefined;
+ }
+ if(typeof o == 'function'){
+  o = o.prototype;
+ }
+ var proto = c.prototype;
+ for(var p in proto){
+  // Ignore properties that are not functions
+  if(typeof proto[p] != 'function'){
+   continue;
+  }
+  if(o[p] != proto[p]){
+   return false;
+  }
+ }
+ return true;
+}
+
+4. // extend of typeof.
+function getType(x){
+ // If x is null, return 'null'
+ if(x == null){
+  return null;
+ }
+ 
+ // Next try the typeof operator
+ var t = typeof x;
+ // If the result is not vague, return it
+ if(t != 'object'){
+  return t;
+ }
+ 
+ // Otherwise, x is an object. Use the default toString() method to
+ // get the class value of the object.
+ var c = Object.prototype.toString.apply(x);    // Returns '[object class]'
+ c = c.substring(8, c.length-1);                // Strip off '[object' ande ']'
+ 
+ // If the class is not a vague one, return it.
+ if(c != 'Object'){
+  return c;
+ }
+ 
+ // If we get here, c is 'Object'. Check to see if the value x is really
+ // just a generic object.
+ if(x.constructor == Object){
+  return c;                                      // Okey the type really is 'Object'
+ }
+ 
+ // For user-defined classes, look for a string-valued property named classname
+ // that is inherited from the object's prototype.
+ if('classname' in x.constructor.prototype &&                    // inherits classname
+    typeof x.constructor.prototype.classname == 'String'){       // it's a string
+  return x.constructir.prototype.classname;
+ }
+ 
+ // If we really can not figure it out, say so.
+ return '<unknow type>';
+}
