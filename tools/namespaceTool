@@ -1,0 +1,96 @@
+1.// Create the global symbol 'com' if it does not exist.
+  // Throw an error if it does exist but is not an object.
+var com;
+if(!com){
+ com = {};
+} else if(typeof com != 'object'){
+ throw new Error('com already exists and is not an object.');
+}
+
+// Repeat the creation and type-checking code for the next level
+if(!com.teddy){
+ com.teddy = {};
+} else if(typeof com.teddy !='object'){
+ throw new Error('com.teddy already exists and is not an object.');
+}
+
+// Throw an error if com.teddy.tools already exists.
+if(com.teddy.tools){
+ throw new Error('com.teddy.tools already exists.');
+}
+
+//Otherwise, create and populate the namespace with one big object literal.
+com.teddy.tools = {
+ /* code goes here.*/
+}
+
+2. 
+/**
+ * Module.js: module and namspace utilities
+ *
+ * This is a module of module-related utility functions that are
+ * compatible with JSAN-type modules.
+ */
+ 
+ // Make sure we haven't already been loaded
+ var Module;
+ if(Module && (typeof Module != 'object' || Module.NAME)){
+  throw new Error('Namespace "Module" already exists.');
+ }
+ 
+ // Create our namespace
+ Module = {};
+ 
+ Module.NAME = 'Module';                // The name of this namespace.
+ Module.VERSION = 0.1;                  // The version of this namespace.
+ 
+ // This is the list of public symbols that we export from this namespace.
+ // These are of interest to programers who use modules.
+ Module.EXPORT = ['require','importSymbols'];
+ 
+ // These are other symbols we are willing to export. They are ones normally
+ // used only by module authors and are not typically imported.
+ Module.EXPORT_OK = ['createNamespace', 'isDefined', 'registerInitializationFunction', 'runInitializationFunctions', 'modules', 'globalNamespace'];
+ 
+ // Now start adding symbols to the namespace
+ Module.globalNamespace = this;                   // So we can always refer to the global scope
+ Module.modules = {'Module' : Module};            // Module name-> namespace map
+ 
+ /**
+  * This function creates and returns a namespace object for the
+  * specified name and does useful error checking to ensure that the
+  * name does not conflict with any previously loaded module. It 
+  * throws an error if the namespace already exists or if any of the
+  * property components of the namespace exist and are not objects.
+  *
+  * Sets a NAME property of the new namespace to its name.
+  * If the version argument is specified, set the VERSION property
+  * of the namespace.
+  *
+  * A mapping for the new namespace is added to the Module.modules object.
+  */
+  Module.createNamespace = function(name, version){
+   // Check name for validity, It must exist, and must not begin or end
+   // with a period or contain two periods in a row.
+   if(!name){
+    throw new Error('Module.createNamespace(): name required.');
+   }
+   if(name.charAt(0) == '.' || name.chartAt(name.length-1) == '.' || name.indexOf('..') != -1){
+    throw new Error('Module.createNamespace(): illegal name:'+ name);
+   }
+   // Break the name at periods and create the object hierarchy we need
+   var parts = name.split('.');
+   
+   //
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
